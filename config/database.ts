@@ -33,17 +33,36 @@ const databaseConfig: DatabaseConfig = {
     | Configuration for MySQL database. Make sure to install the driver
     | from npm when using this connection
     |
-    | npm i mysql
+    | npm i mysql or npm i pg
     |
     */
-    mysql: {
-      client: Env.get('DB_CONNECTION', 'pg'),
+    // mysql: {
+    //   client: 'mysql',
+    //   connection: {
+    //     host: Env.get('MYSQL_HOST', DATABASE_URL.hostname),
+    //     port: Env.get('MYSQL_PORT', DATABASE_URL.port),
+    //     user: Env.get('MYSQL_USER', DATABASE_URL.username),
+    //     password: Env.get('MYSQL_PASSWORD', DATABASE_URL.password),
+    //     database: Env.get('MYSQL_DB_NAME', DATABASE_URL.pathname.substr(1)),
+    //   },
+    //   migrations: {
+    //     naturalSort: true,
+    //   },
+    //   healthCheck: false,
+    //   debug: false,
+    // },
+
+    pg: {
+      client: 'pg',
       connection: {
-        host: Env.get('MYSQL_HOST', DATABASE_URL.hostname),
-        port: Env.get('MYSQL_PORT', DATABASE_URL.port),
-        user: Env.get('MYSQL_USER', DATABASE_URL.username),
-        password: Env.get('MYSQL_PASSWORD', DATABASE_URL.password),
-        database: Env.get('MYSQL_DB_NAME', DATABASE_URL.pathname.substr(1)),
+        host: Env.get('PG_HOST', DATABASE_URL.hostname),
+        port: Env.get('PG_PORT', DATABASE_URL.port),
+        user: Env.get('PG_USER', DATABASE_URL.username),
+        password: Env.get('PG_PASSWORD', DATABASE_URL.password),
+        database: Env.get('PG_DB_NAME', DATABASE_URL.pathname.substr(1)),
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
       migrations: {
         naturalSort: true,
