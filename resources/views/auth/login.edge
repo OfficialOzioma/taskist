@@ -1,0 +1,73 @@
+@layout('layouts/app')
+
+@section('content')
+  <div class="columns">
+    <div class="column is-6 is-offset-3">
+      <div class="box">
+        <h2 class="title has-text-centered">
+          Login
+        </h2>
+
+         @if(flashMessages.has('notification'))
+          <p class="help is-danger is-light is-size-3-tablet has-text-centered">
+            {{ flashMessages.get('notification') }}
+          </p>
+        @endif
+
+        <form action="{{ route('login') }}" method="post">
+          {{ csrfField() }}
+
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+              <input type="email" class="input is-large  {{ flashMessages.has('errors.email') ? 'is-danger' : ''}}" name="email"
+               placeholder="Enter your email address " value="{{ flashMessages.get('email') || ''}}" >
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              @if(flashMessages.has('errors.email'))
+                <p class="help is-danger is-size-3-tablet">
+                  <span class="icon is-small is-right"> <i class="fas fa-exclamation-triangle"></i> </span>
+                </p>
+              @endif
+
+            </div>
+            @if(flashMessages.has('errors.email'))
+              <p class="help is-danger is-size-3-tablet">
+                {{ flashMessages.get('errors.email') }}
+              </p>
+            @endif
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control has-icons-left has-icons-right">
+              <input type="password" class="input is-large  {{ flashMessages.has('errors.password') ? 'is-danger' : ''}}" name="password"
+              placeholder="Enter your password " value="{{ flashMessages.get('password') || ''}}" >
+              <span class="icon is-small is-left"> <i class="fas fa-eye-slash"></i> </span>
+              @if(flashMessages.has('errors.password'))
+                <p class="help is-danger is-size-3-tablet">
+                  <span class="icon is-danger is-small is-right"> <i class="fas fa-exclamation-triangle"></i> </span>
+                </p>
+              @endif
+
+            </div>
+            @if(flashMessages.has('errors.password'))
+              <p class="help is-danger is-size-3-tablet">
+                {{ flashMessages.get('errors.password') }}
+              </p>
+            @endif
+          </div>
+
+          <br />
+          <div class="field mgt-medium">
+            <div class="control">
+              <button type="submit" class="button  is-link is-large is-fullwidth">Submit</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+@endsection

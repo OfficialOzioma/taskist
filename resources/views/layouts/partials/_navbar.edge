@@ -1,0 +1,47 @@
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+  <div class="container ">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <h1 class="is-size-1-tablet">Taskist</h1>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        @if(auth.isLoggedIn)
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" >{{auth.user.name}}</a>
+            <div class="navbar-dropdown">
+              <a
+                href="/logout"
+                class="navbar-item "
+                onclick="event.preventDefault(); document.getElementById('logout').submit();"
+              >
+                <span class="icon">
+                <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span>logout</span>
+                <form action="{{route('logout')}}" method="post" id="logout">
+                  {{ csrfField() }}
+                </form>
+              </a>
+            </div>
+          </div>
+        @else
+          <div class="navbar-item">
+            <div class="buttons">
+              <a href="{{route('showRegister')}}" class="button is-link">
+                <strong>Register</strong>
+              </a>
+              <a href="{{route('showLogin')}}" class="button is-link">
+              <strong>Log in</strong>
+              </a>
+            </div>
+          </div>
+        @endif
+
+
+      </div>
+    </div>
+  </div>
+
+</nav>

@@ -1,0 +1,79 @@
+@layout('layouts/app')
+
+@section('content')
+  <div class="columns">
+      <div class="column is-three-fifths is-offset-one-fifth">
+        @if(flashMessages.has('notification'))
+          <p class="help is-success is-light is-size-3-tablet">
+            {{ flashMessages.get('notification') }}
+          </p>
+        @endif
+        <div class="box">
+          <form action="{{ route('tasks.store') }}" method="post">
+            {{ csrfField() }}
+            <div class="field has-addons">
+              <div class="control is-expanded">
+                <input type="text" name="title" class="input is-large {{ flashMessages.has('errors.title') ? 'is-danger' : ''}}"
+                placeholder="What needs to be done ?" value="{{ flashMessages.get('title') || ''}}">
+              </div>
+              <div class="control">
+                <button type="submit" class="button is-link is-large" > Add </button>
+              </div>
+            </div>
+            @if(flashMessages.has('errors.title'))
+              <p class="help is-danger is-size-3-tablet">
+                {{ flashMessages.get('errors.title') }}
+              </p>
+            @endif
+          </form>
+        </div>
+
+        <div class="box">
+          <table class="table is-fullwidth">
+            <tbody>
+              @each(task in tasks)
+                <tr>
+                  <td>
+                    <form action="{{ route('tasks.update', [task.id], { qs: { _method: 'PATCH'} }) }}" method="post">
+                      {{ csrfField() }}
+                      <label for="completed" class="checkbox is-size-3-tablet">
+                        <input type="checkbox" name="completed" class="largerCheckbox" onchange="this.form.submit()"
+                        {{ task.is_completed ? 'checked' : '' }}>
+                        </label>
+                    </form>
+                  </td>
+                  <td>
+                    <div class=" is-size-4-tablet {{ task.is_completed ? 'completed' : '' }}">
+                      {{ task.title }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class=" is-size-6-tablet {{ task.is_completed ? 'complete-tab ' : 'not-complete-tab' }}">
+                      <span>{{ task.is_completed ? 'completed' : 'not completed' }}</span>
+                    </div>
+                  </td>
+                   <td>
+                    <div class=" is-size-6-tablet ">
+                      <span>{{ task.createdAt.toFormat('DDD')}}</span>
+                    </div>
+                  </td>
+                  <td>
+                     <form action="{{ route('tasks.destroy', [task.id], { qs: { _method: 'DELETE'} }) }}" method="post">
+                      {{ csrfField() }}
+
+                      <button type="submit" class="delete is-large is-danger"></button>
+                    </form>
+                  </td>
+                </tr>
+
+                @else
+                <tr>
+                  <td colspan="3" class=" has-text-centered"> No tasks !</td>
+                </tr>
+              @endeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+@endsection
